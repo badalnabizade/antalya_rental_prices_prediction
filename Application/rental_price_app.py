@@ -3,6 +3,15 @@ import pandas as pd
 import numpy as np
 from flask import Flask, render_template, request
 
+
+county_list = pd.read_pickle('county_list.pickle')
+district_list = pd.read_pickle('district_list.pickle')
+with open('model_lgb.pkl','rb') as f:
+            model_lgb = pickle.load(f)
+model_features = pd.read_pickle('model_features.pickle')
+data = pd.read_csv('data.csv')
+    
+    
 app = Flask(__name__)
 @app.route('/')
 @app.route('/index')
@@ -79,10 +88,4 @@ def score():
                                mean_price = str(int(mean_price))+ ' TL')
 
 if __name__ == '__main__':
-    county_list = pd.read_pickle('county_list.pickle')
-    district_list = pd.read_pickle('district_list.pickle')
-    with open('model_lgb.pkl','rb') as f:
-                model_lgb = pickle.load(f)
-    model_features = pd.read_pickle('model_features.pickle')
-    data = pd.read_csv('data.csv')
     app.run(debug=True)
